@@ -4,6 +4,8 @@
 // init project
 var express = require('express');
 var app = express();
+const joi = require("joi");
+const moment = require("moment");
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
@@ -23,10 +25,21 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
-
-
+app.get("/api/:convertDate", (req, res) => {
+  let convertDate = req.params.convertDate;
+  const isNumberDate = Number(convertDate);
+  if(isNumberDate && Number.isInteger(isNumberDate)){
+    convertDate = moment.unix(convertDate).utc();
+  }
+  const isValidDate = moment(convertDate).isValid();
+  if(!isValidDate)
+  return res.status(400).json({error: "Date is not valid"});
+  const utc = moment(convertDate).format("ddd, DD MMM YYYY hh:mm:ss GMT");
+  const unix = moment(convertDate).unix();
+  res.status(200).json({unix, utc});
+});
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+var listener = app.listen(3000, function () {
+  console.log('Your app is listening on port ' + 3000);
 });
