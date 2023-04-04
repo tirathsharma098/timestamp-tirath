@@ -3,12 +3,17 @@
   "version": "0.0.1",
   "description": "An FCC Backend Challenge",
   "main": "index.js",
+  "engines": {
+    "node": "16.17.0"
+  },
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.0",
+    "dotenv": "^16.0.3",
     "express": "^4.12.4",
+    "helmet": "^6.0.1",
     "joi": "^17.9.1",
     "moment": "^2.29.4"
   },

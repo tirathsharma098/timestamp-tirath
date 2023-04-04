@@ -1,15 +1,30 @@
-// index.js
-// where your node app starts
-
-// init project
-var express = require('express');
-var app = express();
-const joi = require("joi");
+const dotenv = require("dotenv");
+dotenv.config();
+const PORT = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
 const moment = require("moment");
+const helmet = require("helmet");
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
-var cors = require('cors');
+const cors = require('cors');
+app.all("*", function (req, res, next) {
+  res.setHeader(
+      "Access-Control-Allow-Headers",
+      "X-Requested-With, content-type, Authorization, Accept"
+  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Expose-Headers", "Authorization");
+  res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  next();
+});
+app.use(helmet());
+app.use(express.json());
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html
@@ -40,6 +55,6 @@ app.get("/api/:convertDate", (req, res) => {
 });
 
 // listen for requests :)
-var listener = app.listen(3000, function () {
-  console.log('Your app is listening on port ' + 3000);
+app.listen(PORT, function () {
+  console.log('Your app is listening on port ' + PORT);
 });
