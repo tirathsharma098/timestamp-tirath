@@ -57,8 +57,8 @@ app.get("/api/:convertDate", (req, res) => {
     const utc = moment(convertDate)
         .utcOffset("GMT-00:00")
         .format("ddd, DD MMM YYYY HH:mm:ss");
-    const unix = moment.utc(convertDate, "x").unix();
-    res.status(200).json({ unix: unix * 1000, utc: utc + " GMT" });
+    const unix = new Date(convertDate);
+    res.status(200).json({ unix: Number(unix), utc: utc + " GMT" });
 });
 
 // listen for requests :)
