@@ -40,6 +40,11 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
+app.get("/api", (req, res)=> {
+  const utc = moment(new Date()).format("ddd, DD MMM YYYY hh:mm:ss GMT");
+  const unix = Date.now();
+  res.status(200).json({unix, utc});
+})
 app.get("/api/:convertDate", (req, res) => {
   let convertDate = req.params.convertDate;
   const isNumberDate = Number(convertDate);
