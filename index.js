@@ -49,12 +49,12 @@ app.get("/api/:convertDate", (req, res) => {
   let convertDate = req.params.convertDate;
   const isNumberDate = Number(convertDate);
   if(isNumberDate && Number.isInteger(isNumberDate)){
-    convertDate = moment.unix(convertDate).utc();
+    convertDate = new Date(Number(convertDate));
   }
   const isValidDate = moment(convertDate).isValid();
   if(!isValidDate)
   return res.status(400).json({error: "Date is not valid"});
-  const utc = moment(convertDate).format("ddd, DD MMM YYYY hh:mm:ss GMT");
+  const utc = moment(convertDate).format("ddd, DD MMM YYYY hh:mm:ss");
   const unix = moment(convertDate).unix();
   res.status(200).json({unix, utc});
 });
