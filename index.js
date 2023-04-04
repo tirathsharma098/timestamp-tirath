@@ -54,9 +54,9 @@ app.get("/api/:convertDate", (req, res) => {
   const isValidDate = moment(convertDate).isValid();
   if(!isValidDate)
   return res.status(400).json({error: "Date is not valid"});
-  const utc = moment(convertDate).format("ddd, DD MMM YYYY hh:mm:ss");
-  const unix = moment(convertDate).unix();
-  res.status(200).json({unix, utc});
+  const utc = moment.utc(convertDate).format("ddd, DD MMM YYYY hh:mm:ss Z");
+  const unix = moment.utc(convertDate, "x").unix();
+  res.status(200).json({unix: unix*1000, utc});
 });
 
 // listen for requests :)
